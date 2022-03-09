@@ -66,3 +66,13 @@ insert into demoTableLevel(id,StudentID,Subjects)values(6,25,'english')
 
 
 
+				----------Where,order by,Group by Clauses--------------
+select * from employee where emp_id=1
+select * from employee where emp_id=2 order by emp_name desc
+select * from employee order by emp_name desc
+select * from employee order by emp_name asc
+select Max(emp_salary) from employee GROUP BY emp_address 
+select comp_name from company GROUP BY comp_name
+select emp_name from employee GROUP BY emp_name
+select top 2 emp_name from employee order by emp_address asc
+
