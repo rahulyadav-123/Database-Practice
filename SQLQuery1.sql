@@ -3,21 +3,6 @@ create database mydatabase
 use mydatabase
 select * from sys.databases
 create table employee
-(
-	emp_id int identity(1,1) primary key ,
-	emp_name varchar(55) ,
-	emp_salary int ,
-	start_date datetime
-	)
-
-select * from employee
-alter table employee add emp_address varchar(45) not null
-insert into employee(emp_name,emp_salary,start_date,emp_address)values
-('Rahul',30000,GETDATE(),'Mumbai')
-
-drop table employee
-
-create table employee
 (	
 		emp_id int identity(1,1) primary key,
 		emp_name varchar(55),
@@ -38,4 +23,46 @@ insert into employee(emp_name,emp_salary,emp_address,start_date)values('Ram',600
 update employee set emp_address='America'where emp_id=5
 
 delete from employee where emp_address='America'
+
+			-------------for constraints(PK,FK)--------------
+create table company
+(	
+	comp_id int primary key,
+	comp_name varchar(50),
+	emp_id int foreign key references employee(emp_id)
+)
+select * from company
+insert into company(comp_id,comp_name,emp_id)values(1,'Bridgelab',1)
+insert into company(comp_id,comp_name,emp_id)values(2,'Infosys',2)
+insert into company(comp_id,comp_name,emp_id)values(3,'TCS',3)
+		
+				
+			-------------for constraints(Identity)--------------
+create table demo1
+(
+	id int identity(1,1) primary key,
+	emp_name varchar(65),
+	emp_salary int
+
+)
+select * from demo1
+insert into demo1(emp_name,emp_salary)values('soni',500000)
+insert into demo1(emp_name,emp_salary)values('karan',400000)
+
+
+			--------------Use of table level constraints--------------
+create table demoTableLevel
+(
+	id int primary key,
+	StudentID int,
+	Subjects varchar(55),
+	constraint StudID_Sub unique(StudentID,Subjects)
+)
+select * from demoTableLevel
+insert into demoTableLevel(id,StudentID,Subjects)values(1,25,'english')
+insert into demoTableLevel(id,StudentID,Subjects)values(2,25,'english')
+insert into demoTableLevel(id,StudentID,Subjects)values(5,25,'english')
+insert into demoTableLevel(id,StudentID,Subjects)values(6,25,'english')
+
+
 
