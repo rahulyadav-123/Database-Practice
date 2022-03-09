@@ -76,3 +76,21 @@ select comp_name from company GROUP BY comp_name
 select emp_name from employee GROUP BY emp_name
 select top 2 emp_name from employee order by emp_address asc
 
+				---------Sub-queries--------
+select * from employee
+where emp_id=(select emp_id from company where comp_name='Bridgelab' and comp_id=1)
+
+select * from employee
+where emp_id IN(select emp_id from company where emp_id=2)
+
+select * from company
+select top 2 percent * from employee
+
+select * from employee
+where emp_id In(select emp_id from company where comp_name='Infosys')
+
+select * from employee
+where emp_id >Any(select emp_id from company where comp_name='Infosys')
+
+select * from employee
+where emp_id <Any(select emp_id from company where comp_name='Infosys')
