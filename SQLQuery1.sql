@@ -76,4 +76,56 @@ select comp_name from company GROUP BY comp_name
 select emp_name from employee GROUP BY emp_name
 select top 2 emp_name from employee order by emp_address asc
 
-			
+				---------Sub-queries--------
+select * from employee
+where emp_id=(select emp_id from company where comp_name='Bridgelab' and comp_id=1)
+
+select * from employee
+where emp_id IN(select emp_id from company where emp_id=2)
+
+select * from company
+select top 2 percent * from employee
+
+select * from employee
+where emp_id In(select emp_id from company where comp_name='Infosys')
+
+select * from employee
+where emp_id >Any(select emp_id from company where comp_name='Infosys')
+
+select * from employee
+where emp_id <Any(select emp_id from company where comp_name='Infosys')
+
+
+					------------Joints--------------
+SELECT  *      
+FROM            dbo.company INNER JOIN
+                         dbo.employee ON dbo.company.emp_id = dbo.employee.emp_id
+
+
+
+SELECT        dbo.employee.emp_id, dbo.employee.emp_name, dbo.employee.emp_salary, dbo.employee.emp_address, dbo.employee.start_date
+FROM            dbo.company left JOIN
+                         dbo.employee ON dbo.company.emp_id = dbo.employee.emp_id
+
+
+select dbo.employee.emp_id, dbo.employee.emp_name from employee
+left join company 
+ON dbo.company.emp_id = dbo.employee.emp_id
+
+
+ select company.comp_name,company.emp_id from company
+ right join employee 
+ ON dbo.company.emp_id = dbo.employee.emp_id
+ order by company.comp_name desc
+
+ select company.comp_name,employee.emp_name from company
+ full outer join employee
+ ON dbo.company.emp_id = dbo.employee.emp_id
+
+ select company.comp_name,employee.emp_name,employee.emp_address from company
+ cross join employee
+					-------------Self join ----------
+ select A.comp_name As comp_name1,B.emp_name As emp_name2 
+ from company A,employee B
+ where A.comp_id<>B.emp_id
+ order by A.comp_id
