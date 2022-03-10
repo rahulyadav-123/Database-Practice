@@ -76,6 +76,7 @@ select comp_name from company GROUP BY comp_name
 select emp_name from employee GROUP BY emp_name
 select top 2 emp_name from employee order by emp_address asc
 
+
 				---------Sub-queries--------
 select * from employee
 where emp_id=(select emp_id from company where comp_name='Bridgelab' and comp_id=1)
@@ -129,3 +130,61 @@ ON dbo.company.emp_id = dbo.employee.emp_id
  from company A,employee B
  where A.comp_id<>B.emp_id
  order by A.comp_id
+
+					----------------Multiple join using three table----------
+create table Department
+(
+	Department_ID int primary key,
+	Department_Name varchar(55)
+)
+select * from Department
+insert into Department(Department_ID,Department_Name)values(1,'Account')
+insert into Department(Department_ID,Department_Name)values(2,'IT')
+insert into Department(Department_ID,Department_Name)values(3,'HR')
+insert into Department(Department_ID,Department_Name)values(4,'Devolpment')
+
+create table Genders
+(
+	Gender_ID int primary key,
+	Gender_Name varchar(55)
+)
+select * from Genders
+insert into Genders(Gender_ID,Gender_Name)values(1,'Male')
+insert into Genders(Gender_ID,Gender_Name)values(2,'Female')
+
+create table Employees
+(
+	Employee_ID int primary key,
+	Employee_Name varchar(55),
+	Department_ID int foreign key references Department(Department_ID),
+	Gender_ID int foreign key references Genders(Gender_ID)
+)
+select * from Employees
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(1,'Arohi',1,1)
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(2,'Aashish',1,2)
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(3,'Ansh',2,1)
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(4,'Arpita',3,2)
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(5,'Anjali',4,1)
+insert into Employees(Employee_ID,Employee_Name,Department_ID,Gender_ID)values(6,'Anshu',2,1)
+
+select Employee_Name,Department_Name,Gender_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+
+
+select Employee_Name,Department_Name,Gender_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+order by Employee_Name asc
+
+
+select Department_Name,Gender_Name, count(*) as TotalEmployee
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+group by Department_Name,Gender_Name
+
+
+
