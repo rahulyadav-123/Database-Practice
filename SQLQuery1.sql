@@ -313,3 +313,20 @@ create table orders
 	On update set null
 )
 update orders set cus_ID=2 where order_ID=1
+
+
+					---------------Stored procedure-----------
+create procedure sptoalleployee
+as
+begin
+select Employee_Name,Department_Name,Gender_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+end
+
+sptoalleployee
+
+
+
+
