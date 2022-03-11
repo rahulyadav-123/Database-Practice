@@ -297,8 +297,6 @@ create table orders
 insert into orders(cus_ID,product_items)values(1,'Grocery')
 insert into orders(cus_ID,product_items)values(2,'milk')
 insert into orders(cus_ID,product_items)values(3,'curd')
-drop table customers
-drop table orders
 select * from customers
 select * from orders
 delete from customers where cus_ID=3
