@@ -188,3 +188,128 @@ group by Department_Name,Gender_Name
 
 
 
+
+
+							---------------------view sql Commands--------------
+
+Create View vWemployeeByDepartment
+as
+select Employee_Name,Department_Name,Gender_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+
+select * from vWemployeeByDepartment
+
+Create View vWITemployees
+as
+select Employee_Name,Department_Name,Gender_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+where Department.Department_Name='IT'
+
+select * from vWITemployees
+
+Create View vWNonConfedentialData
+as
+select Employee_Name,Department_Name
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+
+select * from vWNonConfedentialData
+
+create view vWSummerizeDataa
+as
+select Department_Name, count(*) as TotalEmployee
+from Employees
+join Department on Employees.Department_ID = Department.Department_ID
+join  Genders on Employees.Gender_ID = Genders.Gender_ID
+group by Department_Name,Gender_Name
+
+select * from vWSummerizeDataa
+
+
+							--------------Derived Table-----------------
+select * from 
+(
+	select Department_Name, count(*) as TotalEmployee
+	from Employees
+	join Department on Employees.Department_ID = Department.Department_ID
+	join  Genders on Employees.Gender_ID = Genders.Gender_ID
+	group by Department_Name,Gender_Name
+)As derivedtable
+
+
+
+
+
+
+			-----------------cast and convert function-----------
+ create table tblemploye
+ (	
+	id int primary key,
+	name varchar(55),
+	birth_date DATETime not null
+)
+	
+	select * from tblemploye
+	drop table tblemploye
+	insert into tblemploye(id,name,birth_date)values(1,'ram','1980-05-11 10:31:00')
+	insert into tblemploye(id,name,birth_date)values(2,'sam','1984-06-20 10:31:00')
+	insert into tblemploye(id,name,birth_date)values(3,'cham','1988-01-11 10:31:00')
+	insert into tblemploye(id,name,birth_date)values(4,'amir','1989-06-11 10:31:00')
+
+	
+
+	select id,name,birth_date,CAST(birth_date as varchar)as convertedDOB from tblemploye
+	select id,name,birth_date,convert( nvarchar ,birth_date,103)as convertedDOB from tblemploye
+
+
+
+						---------------like Operator-------------
+select Employee_Name from Employees where Employee_Name like 'A%'
+
+select emp_name from employee where emp_name like '%os%'
+
+select emp_address from employee where emp_address like '%un%'
+
+
+							-------------Delete cascade------------
+create table customers
+(
+	cus_ID int primary key,
+	cust_Name varchar (55)
+)
+insert into customers(cus_ID,cust_Name)values(1,'chunky')
+insert into customers(cus_ID,cust_Name)values(2,'akshay')
+insert into customers(cus_ID,cust_Name)values(3,'kumar')
+
+create table orders
+(
+	order_ID int identity(1,1) primary key,
+	cus_ID int,
+	product_items varchar(55),
+	foreign key (cus_ID) references customers(cus_ID)
+	On delete set null
+)
+insert into orders(cus_ID,product_items)values(1,'Grocery')
+insert into orders(cus_ID,product_items)values(2,'milk')
+insert into orders(cus_ID,product_items)values(3,'curd')
+drop table customers
+drop table orders
+select * from customers
+select * from orders
+delete from customers where cus_ID=3
+
+							------------Update cascade-----------
+create table orders
+(
+	order_ID int identity(1,1) primary key,
+	cus_ID int,
+	product_items varchar(55),
+	foreign key (cus_ID) references customers(cus_ID)
+	On update set null
+)
+update orders set cus_ID=2 where order_ID=1
