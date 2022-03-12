@@ -62,67 +62,68 @@ return @result
 end
 print dbo.fun_addition(100.23,1500)
 
-alter function fn_contacts()
-		returns @contacts table(
-		first_name varchar(55),
-		last_name varchar(55),
-		email varchar(55),
-		phone_number int,
-		contact_type varchar(55)
-		)
-		as
-		begin 
-		insert into @contacts
-		select
-		first_name,
-		last_name,
-		email,
-		phone_number,
-		contact_type
-	
-		from
-		@contacts
-		insert into @contacts
-		select
-		first_name,
-		last_name,
-		email,
-		phone_number,
-		contact_type
 
-		from
-		@contacts
+				---------- function--------
+create function Multinum(@num1 int ,@num2 int)
+returns return type
+as
+begin
+statement 1
+statement 2
+statement n
+RETURN return value
+end
+			----------scaler function-------------
+create function fun_Multinum (@num1 int ,@num2 int)
+returns int
+as
+begin
+declare @result int
+set @result =@num1 + @num2
+return @result
+end
+select dbo.fun_Multinum(2,5)
 
-		return
-		end
-select * from fn_contacts()
+create function Gettotal(@id int)
+returns int 
+as 
+begin
+declare @result int
+select @result=sum(salary/12) from employee_payroll As grosssalary  where id =@id group by id
+return @result
+end
+select dbo.Gettotal(id) from employee_payroll
+
+			--------Table value function------------
+			-----Inline table value function-----------
+create function getemplist(@salary int)
+returns table
+as
+return select  * from employee_payroll where salary>@salary
+select * from dbo.getemplist(100000)
 
 
-					------------Indexing--------------
-create table tbleemployee
-(
-	id int primary key,
-	name varchar(50),
-	salary int ,
-	gender varchar(55)
-)
-drop table tbleemployee
-insert into tbleemployee(id,name,salary,gender)values(1,'Rahul',2500,'male')
-insert into tbleemployee(id,name,salary,gender)values(3,'soni',5500,'female')
-insert into tbleemployee(id,name,salary,gender)values(2,'pooja',2550,'female')
-insert into tbleemployee(id,name,salary,gender)values(5,'Himani',1500,'female')
-insert into tbleemployee(id,name,salary,gender)values(4,'rony',9500,'male')
+		--------Multistatement table value function----------
+create function Multistatementemp()
+			returns @contact table(
+			id int not null,
+			name varchar(55),
+			salary int,
+			contact_type varchar(55)
+			)
+			as
+			begin
+			insert into @contact
+			select
+			id,
+			name,
+			salary,
+			'staff'
+			from dbo.employee_payroll where id=1
+			return
+			end
 
-select * from tbleemployee where id=5 
-			---------------without indexing-----------
-create index IX_tbleemployee_salary on tbleemployee (salary asc)
-drop index If exists tbleemployee.IX_tbleemployee_salary
-
-				------------After indexing-----------
-
-create nonclustered index nonCLIDX_Empdetail on tbleemployee (name asc,gender)
-
-select * from tbleemployee
+			select * from  Multistatementemp()
 
 
 
