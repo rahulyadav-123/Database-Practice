@@ -29,16 +29,16 @@ select * from fun_employee_payroll(2)
 update employee_payroll set name='Arjun' where id=3
 
 		------function with two columun concat function------
-create function fnEmpconcat_Info
+alter function fnEmpconcat_Info
 (
-	@name varchar(65),
+	@name varchar(55),
 	@salary int
 )
 returns varchar(55)
 as
 begin return (select @name+' '+@salary)
 end
-select * from  fnEmpconcat_Infoss
+select * from fnEmpconcat_Info 
 
 	---------display function------
 select name,salary from fnEmpconcat_Info(name,salary) as total where name='Rahul'
@@ -60,42 +60,76 @@ declare @result decimal(7,2)
 set @result =@num1+@num2
 return @result
 end
-print dbo.fun_addition(100.23,1500)
+print dbo.fun_addition(100.23,15
 
-alter function fn_contacts()
-		returns @contacts table(
-		first_name varchar(55),
-		last_name varchar(55),
-		email varchar(55),
-		phone_number int,
-		contact_type varchar(55)
-		)
-		as
-		begin 
-		insert into @contacts
-		select
-		first_name,
-		last_name,
-		email,
-		phone_number,
-		contact_type
-	
-		from
-		@contacts
-		insert into @contacts
-		select
-		first_name,
-		last_name,
-		email,
-		phone_number,
-		contact_type
 
-		from
-		@contacts
 
-		return
-		end
-select * from fn_contacts()
+				---------- function--------
+create function Multinum(@num1 int ,@num2 int)
+returns return type
+as
+begin
+statement 1
+statement 2
+statement n
+RETURN return value
+end
+			----------scaler function-------------
+create function fun_Multinum (@num1 int ,@num2 int)
+returns int
+as
+begin
+declare @result int
+set @result =@num1 + @num2
+return @result
+end
+select dbo.fun_Multinum(2,5)
+
+create function Gettotal(@id int)
+returns int 
+as 
+begin
+declare @result int
+select @result=sum(salary/12) from employee_payroll As grosssalary  where id =@id group by id
+return @result
+end
+select dbo.Gettotal(id) from employee_payroll
+
+			--------Table value function------------
+			-----Inline table value function-----------
+create function getemplist(@salary int)
+returns table
+as
+return select  * from employee_payroll where salary>@salary
+select * from dbo.getemplist(100000)
+
+
+		--------Multistatement table value function----------
+create function Multistatementemp()
+			returns @contact table(
+			id int not null,
+			name varchar(55),
+			salary int,
+			contact_type varchar(55)
+			)
+			as
+			begin
+			insert into @contact
+			select
+			id,
+			name,
+			salary,
+			'staff'
+			from dbo.employee_payroll where id=1
+			return
+			end
+
+			select * from  Multistatementemp()
+
+
+
+
+
 
 
 					------------Indexing--------------
@@ -126,4 +160,21 @@ select * from tbleemployee
 
 
 
+				---------------cursor--------------------
+
+
+declare  cpucursor cursor 
+for 
+select * from dbo.employee_payroll
+		-----open cursor---------
+open cpucursor
+fetch next from cpucursor 
+while (@@FETCH_STATUS = 0)
+begin 
+		fetch next from cpucursor
+end
+	-----------close cursor------
+close cpucursor
+			-----finally deallocate the cursor to realese it-------
+deallocate cpucursor
 

@@ -259,7 +259,7 @@ select * from
 	insert into tblemploye(id,name,birth_date)values(1,'ram','1980-05-11 10:31:00')
 	insert into tblemploye(id,name,birth_date)values(2,'sam','1984-06-20 10:31:00')
 	insert into tblemploye(id,name,birth_date)values(3,'cham','1988-01-11 10:31:00')
-	insert into tblemploye(id,name,birth_date)values(4,'amir','1989-06-11 10:31:00')
+	insert into tblemploye(id,name,birth_date)values(4,'amir','19	89-06-11 10:31:00')
 
 	
 
